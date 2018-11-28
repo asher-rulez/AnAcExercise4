@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item
+        android:id="@+id/ml_tb_menu_item_grid"
+        android:orderInCategory="100"
+        android:title="@string/ml_tb_btn_title_grid"
+        android:icon="@drawable/ic_apps_black_24dp"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/ml_tb_menu_item_list"
+        android:visible="false"
+        android:orderInCategory="200"
+        android:title="@string/ml_tb_btn_title_list"
+        android:icon="@drawable/ic_clear_all_black_24dp"
+        app:showAsAction="always"/>
+</menu>

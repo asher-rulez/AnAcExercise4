@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_mof_big"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/ma_header_image_height"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/infinity_war_poster_big"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ma_header_image_height"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_mof_small"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ma_vertical_margin"
+                    android:layout_marginStart="@dimen/ma_standard_margin"
+                    app:srcCompat="@drawable/infinity_war_poster_small"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="fill_parent"
+                    android:layout_marginStart="@dimen/ma_standard_margin"
+                    android:layout_marginTop="@dimen/ma_vertical_margin">
+
+                    <TextView
+                        android:id="@+id/ma_tv_movie_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top|start"
+                        android:textAlignment="textStart"
+                        android:textStyle="bold"
+                        android:textColor="@color/violet"/>
+
+                    <TextView
+                        android:id="@+id/ma_tv_released"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ma_tv_released"
+                        android:layout_below="@+id/ma_tv_movie_title"
+                        android:gravity="start"
+                        android:layout_marginTop="@dimen/ma_vertical_margin_small"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/ma_tv_released_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/ma_tv_released"
+                        android:layout_below="@+id/ma_tv_movie_title"
+                        android:layout_marginStart="@dimen/ma_standard_margin"
+                        android:layout_marginTop="@dimen/ma_vertical_margin_small"
+                        android:gravity="start"/>
+
+                    <Button
+                        android:id="@+id/button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ma_btn_movie_trailer"
+                        android:layout_below="@+id/ma_tv_released"
+                        android:layout_marginTop="@dimen/ma_vertical_margin"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/overview"
+                android:layout_marginStart="@dimen/ma_standard_margin"
+                android:layout_marginTop="@dimen/ma_standard_margin"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_mof_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:layout_marginTop="@dimen/ma_standard_margin"
+                android:layout_marginStart="@dimen/ma_standard_margin"
+                android:layout_marginEnd="@dimen/ma_standard_margin"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ma_tv_wiki"
+                android:layout_marginStart="@dimen/ma_standard_margin"
+                android:layout_marginTop="@dimen/ma_standard_margin"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_mof_wiki"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:layout_marginTop="@dimen/ma_standard_margin"
+                android:layout_marginStart="@dimen/ma_standard_margin"
+                android:layout_marginEnd="@dimen/ma_standard_margin"/>
+
+        </LinearLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ma_vertical_margin">16dp</dimen>
+    <dimen name="ma_standard_margin">6dp</dimen>
+    <dimen name="ma_header_image_height">220dp</dimen>
+    <dimen name="ma_vertical_margin_small">3dp</dimen>
+</resources>
