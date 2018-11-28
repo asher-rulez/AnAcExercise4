@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.asher.anacexercize4.IFragmentInteractionListener;
+import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
 import com.example.asher.anacexercize4.R;
 import com.example.asher.anacexercize4.data.MovieItemDTO;
 

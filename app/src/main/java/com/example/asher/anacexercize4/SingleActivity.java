@@ -2,8 +2,8 @@ package com.example.asher.anacexercize4;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 
+import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
 import com.example.asher.anacexercize4.ui.single.MoviesListGridFragment;
 
 public class SingleActivity extends AppCompatActivity implements IFragmentInteractionListener {

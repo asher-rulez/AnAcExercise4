@@ -1,6 +1,5 @@
 package com.example.asher.anacexercize4.ui.single;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,7 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.asher.anacexercize4.IFragmentInteractionListener;
+import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
 import com.example.asher.anacexercize4.R;
 import com.example.asher.anacexercize4.adapters.MoviesListRWAdapterGrid;
 import com.example.asher.anacexercize4.adapters.MoviesListRWAdapterList;
@@ -26,7 +25,6 @@ import com.example.asher.anacexercize4.data.DataGetter;
 import com.example.asher.anacexercize4.data.MovieItemDTO;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 public class MoviesListGridFragment extends Fragment {
 
