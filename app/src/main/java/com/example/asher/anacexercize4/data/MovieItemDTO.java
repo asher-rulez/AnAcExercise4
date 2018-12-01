@@ -1,7 +1,15 @@
 package com.example.asher.anacexercize4.data;
 
 
-public class MovieItemDTO {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class MovieItemDTO implements Serializable {
+
+    public static final String MOVIE_ITEM_BUNDLE_NAME = "movie";
+    public static final String MOVIE_INDEX_BUNDLE_NAME = "index";
 
     private int _imageSmallResId;
     private int _imageBigResId;
@@ -10,14 +18,24 @@ public class MovieItemDTO {
     private String _movieDescription;
     private String _movieWiki;
     private String _movieReleaseDate;
+    private String _trailerIntentAddress;
 
-    public MovieItemDTO(int _imageSmallResId, int _imageBigResId, String _movieTitle, String _movieDescription, String _movieWiki, String _movieReleaseDate) {
+    public MovieItemDTO(int _imageSmallResId, int _imageBigResId, String _movieTitle, String _movieDescription, String _movieWiki, String _movieReleaseDate, String _movieTrailerId) {
         this._imageSmallResId = _imageSmallResId;
         this._imageBigResId = _imageBigResId;
         this._movieTitle = _movieTitle;
         this._movieDescription = _movieDescription;
         this._movieWiki = _movieWiki;
         this._movieReleaseDate = _movieReleaseDate;
+        this._trailerIntentAddress = _movieTrailerId;
+    }
+
+    public String get_trailerIntentAddress() {
+        return _trailerIntentAddress;
+    }
+
+    public void set_trailerIntentAddress(String _trailerIntentAddress) {
+        this._trailerIntentAddress = _trailerIntentAddress;
     }
 
     public int get_imageSmallResId() {
@@ -67,4 +85,5 @@ public class MovieItemDTO {
     public void set_movieReleaseDate(String _movieReleaseDate) {
         this._movieReleaseDate = _movieReleaseDate;
     }
+
 }

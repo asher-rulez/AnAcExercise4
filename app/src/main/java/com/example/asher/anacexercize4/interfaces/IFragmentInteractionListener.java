@@ -4,4 +4,6 @@ import android.view.View;
 
 public interface IFragmentInteractionListener {
     void OnListOrGridItemClicked(int movieIndex);
+
+    void OnShowTrailerClickListener(String intentAddress);
 }

@@ -56,6 +56,7 @@ public class MoviesListRWAdapterList extends RecyclerView.Adapter<MoviesListRWAd
             _image = itemView.findViewById(R.id.iv_ml_rw_list_item_image);
             _title = itemView.findViewById(R.id.tv_ml_rw_list_item_title);
             _description = itemView.findViewById(R.id.tv_ml_rw_list_item_description);
+            _interactionListener = interactionListener;
             itemView.setOnClickListener(this);
         }
 
