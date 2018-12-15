@@ -17,4 +17,19 @@
         android:title="@string/ml_tb_btn_title_list"
         android:icon="@drawable/ic_clear_all_black_24dp"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/ml_tb_menu_item_asynctask"
+        android:orderInCategory="300"
+        android:title="@string/menu_open_async_task_activity"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/ml_tb_menu_item_thread"
+        android:orderInCategory="400"
+        android:title="@string/menu_open_thread_activity"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/ml_tb_menu_item_services"
+        android:orderInCategory="500"
+        android:title="@string/menu_open_services_fragment"
+        app:showAsAction="never"/>
 </menu>

@@ -1,6 +1,7 @@
 package com.example.asher.anacexercize4.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
 import com.example.asher.anacexercize4.R;
@@ -27,7 +29,7 @@ import com.example.asher.anacexercize4.data.MovieItemDTO;
 
 import java.util.ArrayList;
 
-public class MoviesListGridFragment extends Fragment implements View.OnClickListener {
+public class MoviesListGridFragment extends Fragment {
 
     IFragmentInteractionListener _interactionListener;
 
@@ -39,7 +41,7 @@ public class MoviesListGridFragment extends Fragment implements View.OnClickList
     MoviesListRWAdapterList listAdapter;
     MoviesListRWAdapterGrid gridAdapter;
     RecyclerView rw_movies_list;
-    ImageButton _ibtn_showList, _ibtn_showGrid;
+//    ImageButton _ibtn_showList, _ibtn_showGrid;
 
     public IFragmentInteractionListener get_interactionListener() {
         return _interactionListener;
@@ -55,12 +57,27 @@ public class MoviesListGridFragment extends Fragment implements View.OnClickList
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mi_source = (ArrayList<MovieItemDTO>)getArguments().getSerializable(MovieItemDTO.MOVIE_ITEM_BUNDLE_NAME);
+        mi_source = (ArrayList<MovieItemDTO>) getArguments().getSerializable(MovieItemDTO.MOVIE_ITEM_BUNDLE_NAME);
         return inflater.inflate(R.layout.single_fragment, container, false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.movies_list_toolbar_menu, menu);
+        _menu_item_grid = menu.findItem(R.id.ml_tb_menu_item_grid);
+        _menu_item_list = menu.findItem(R.id.ml_tb_menu_item_list);
+        CreateAndAttachAdapter();
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -71,21 +88,20 @@ public class MoviesListGridFragment extends Fragment implements View.OnClickList
         ((AppCompatActivity) getActivity()).setSupportActionBar(_toolbar);
         IS_LIST = true;
         rw_movies_list = view.findViewById(R.id.rw_ml_movies_list);
-        _ibtn_showGrid = view.findViewById(R.id.ibtn_show_grid);
-        _ibtn_showGrid.setOnClickListener(this);
-        _ibtn_showList = view.findViewById(R.id.ibtn_show_list);
-        _ibtn_showList.setOnClickListener(this);
-        CreateAndAttachAdapter();
+//        _ibtn_showGrid = view.findViewById(R.id.ibtn_show_grid);
+//        _ibtn_showGrid.setOnClickListener(this);
+//        _ibtn_showList = view.findViewById(R.id.ibtn_show_list);
+//        _ibtn_showList.setOnClickListener(this);
+//        CreateAndAttachAdapter();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            _interactionListener = (IFragmentInteractionListener)context;
-        }
-        catch (ClassCastException ex){
-            Log.e("MLGFr","context is not instance of listener");
+            _interactionListener = (IFragmentInteractionListener) context;
+        } catch (ClassCastException ex) {
+            Log.e("MLGFr", "context is not instance of listener");
         }
     }
 
@@ -95,34 +111,74 @@ public class MoviesListGridFragment extends Fragment implements View.OnClickList
 
     }
 
-    private void CreateAndAttachAdapter(){
-        if(mi_source == null)
+    private void CreateAndAttachAdapter() {
+        if (mi_source == null)
             return;
-        if(IS_LIST)
+        if (IS_LIST)
             CreateAndAttachListAdapter();
         else
             CreateAndAttachGridAdapter();
     }
 
-    private void CreateAndAttachListAdapter(){
-        _ibtn_showGrid.setVisibility(View.VISIBLE);
-        _ibtn_showList.setVisibility(View.GONE);
+    private void CreateAndAttachListAdapter() {
+        _menu_item_list.setVisible(false);
+        _menu_item_grid.setVisible(true);
+//        _ibtn_showGrid.setVisibility(View.VISIBLE);
+//        _ibtn_showList.setVisibility(View.GONE);
         LinearLayoutManager llm_movies_list = new LinearLayoutManager(getContext());
         rw_movies_list.setLayoutManager(llm_movies_list);
         listAdapter = new MoviesListRWAdapterList(mi_source, getContext(), get_interactionListener());
         rw_movies_list.setAdapter(listAdapter);
     }
 
-    private void CreateAndAttachGridAdapter(){
-        _ibtn_showGrid.setVisibility(View.GONE);
-        _ibtn_showList.setVisibility(View.VISIBLE);
+    private void CreateAndAttachGridAdapter() {
+        _menu_item_grid.setVisible(false);
+        _menu_item_list.setVisible(true);
+//        _ibtn_showGrid.setVisibility(View.GONE);
+//        _ibtn_showList.setVisibility(View.VISIBLE);
         StaggeredGridLayoutManager sglm_movies_list = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         rw_movies_list.setLayoutManager(sglm_movies_list);
         gridAdapter = new MoviesListRWAdapterGrid(mi_source, getContext(), get_interactionListener());
         rw_movies_list.setAdapter(gridAdapter);
     }
 
-//    @Override
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ml_tb_menu_item_grid:
+            case R.id.ml_tb_menu_item_list:
+                rw_movies_list.setLayoutManager(null);
+                rw_movies_list.setAdapter(null);
+                if(item.getItemId() == R.id.ml_tb_menu_item_grid){
+                    IS_LIST = true;
+                    CreateAndAttachGridAdapter();
+                }
+                else {
+                    IS_LIST = false;
+                    CreateAndAttachListAdapter();
+                }
+                return true;
+            case R.id.ml_tb_menu_item_asynctask:
+                _interactionListener.SwitchToAsyncFragment(AsyncCounterFragment.ASYNC_TYPE_ASYNCTASK);
+                return true;
+            case R.id.ml_tb_menu_item_thread:
+                _interactionListener.SwitchToAsyncFragment(AsyncCounterFragment.ASYNC_TYPE_THREAD);
+                return true;
+            case R.id.ml_tb_menu_item_services:
+                _interactionListener.SwitchToServicesFragment();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(getContext(), "fragment onActRes " + resultCode, Toast.LENGTH_SHORT).show();
+    }
+
+    //    @Override
 //    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 //        inflater.inflate(R.menu.movies_list_toolbar_menu, menu);
 //        _menu_item_grid = menu.findItem(R.id.ml_tb_menu_item_grid);
@@ -146,19 +202,19 @@ public class MoviesListGridFragment extends Fragment implements View.OnClickList
 //        return super.onOptionsItemSelected(item);
 //    }
 
-    @Override
-    public void onClick(View v) {
-        rw_movies_list.setLayoutManager(null);
-        rw_movies_list.setAdapter(null);
-        switch (v.getId()){
-            case R.id.ibtn_show_grid:
-                IS_LIST = true;
-                CreateAndAttachGridAdapter();
-                break;
-            case R.id.ibtn_show_list:
-                IS_LIST = false;
-                CreateAndAttachListAdapter();
-                break;
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        rw_movies_list.setLayoutManager(null);
+//        rw_movies_list.setAdapter(null);
+//        switch (v.getId()) {
+//            case R.id.ibtn_show_grid:
+//                IS_LIST = true;
+//                CreateAndAttachGridAdapter();
+//                break;
+//            case R.id.ibtn_show_list:
+//                IS_LIST = false;
+//                CreateAndAttachListAdapter();
+//                break;
+//        }
+//    }
 }

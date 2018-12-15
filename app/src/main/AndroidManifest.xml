@@ -16,6 +16,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".services.MyService" />
+        <service
+            android:name=".services.MyIntentService" />
+
+        <receiver
+            android:name=".receivers.MyReceiver"
+            android:enabled="false"
+            android:exported="false"></receiver>
     </application>
 
 </manifest>
