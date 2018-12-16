@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.asher.anacexercize4.R;
 import com.example.asher.anacexercize4.interfaces.IServiceFragmentInteractionListener;
+import com.example.asher.anacexercize4.services.MyIntentService;
 import com.example.asher.anacexercize4.services.MyService;
 
 public class ServicesFragment extends Fragment implements View.OnClickListener, IServiceFragmentInteractionListener {
@@ -26,6 +27,24 @@ public class ServicesFragment extends Fragment implements View.OnClickListener, 
 
     TextView tv_service_status, tv_service_log;
     Button btn_start_service, btn_start_intent_service, btn_stop_service;
+
+    private boolean IsIntentServiceRunning, IsServiceRunning;
+
+    public boolean isIntentServiceRunning() {
+        return IsIntentServiceRunning;
+    }
+
+    public void setIntentServiceRunning(boolean intentServiceRunning) {
+        IsIntentServiceRunning = intentServiceRunning;
+    }
+
+    public boolean isServiceRunning() {
+        return IsServiceRunning;
+    }
+
+    public void setServiceRunning(boolean serviceRunning) {
+        IsServiceRunning = serviceRunning;
+    }
 
     public ServicesFragment() {
     }
@@ -71,17 +90,14 @@ public class ServicesFragment extends Fragment implements View.OnClickListener, 
                 StartMyIntentService();
                 break;
             case R.id.btn_fs_stop_service:
-                StopServices();
+                StopService();
+                StopIntentService();
                 break;
         }
     }
 
-    private void StopServices() {
-        StopService();
-        StopIntentService();
-    }
-
     private void StartMyService() {
+
         StopIntentService();
         PendingIntent pi = getActivity().createPendingResult(CODE_SERVICE, new Intent(), 0);
         Intent intent = new Intent(getActivity(), MyService.class).putExtra(PENDING_INTENT_EXTRA, pi);
@@ -89,24 +105,16 @@ public class ServicesFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void StopIntentService() {
-        //if(IsIntentServiceRunning())
-    }
-
-    private boolean IsIntentServiceRunning() {
-        return true;
+        getActivity().stopService(new Intent(getContext(), MyIntentService.class));
     }
 
     private void StartMyIntentService() {
         StopService();
-
+        MyIntentService.startServiceInstance(getContext());
     }
 
     private void StopService() {
         getActivity().stopService(new Intent(getActivity(), MyService.class));
-    }
-
-    private boolean IsServiceRunning() {
-        return true;
     }
 
     @Override

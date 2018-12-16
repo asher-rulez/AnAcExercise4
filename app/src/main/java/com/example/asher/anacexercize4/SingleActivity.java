@@ -2,12 +2,13 @@ package com.example.asher.anacexercize4;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
+import com.example.asher.anacexercize4.async_util.ObservableObject;
 import com.example.asher.anacexercize4.data.DataGetter;
 import com.example.asher.anacexercize4.data.MovieItemDTO;
 import com.example.asher.anacexercize4.fragments.AsyncCounterFragment;
@@ -16,14 +17,22 @@ import com.example.asher.anacexercize4.fragments.ServicesFragment;
 import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
 import com.example.asher.anacexercize4.fragments.MoviesListGridFragment;
 import com.example.asher.anacexercize4.interfaces.IServiceFragmentInteractionListener;
+import com.example.asher.anacexercize4.receivers.MyReceiver;
 import com.example.asher.anacexercize4.services.MyService;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class SingleActivity extends AppCompatActivity implements IFragmentInteractionListener {
+import static com.example.asher.anacexercize4.services.MyIntentService.INTENT_EXTRA;
+import static com.example.asher.anacexercize4.services.MyIntentService.UPDATE_TYPE_EXTRA;
+
+public class SingleActivity extends AppCompatActivity implements IFragmentInteractionListener, Observer {
 
     private static final String TAG_SERVICE_FRAGMENT = "TAG_SERVICE_FRAGMENT";
     private ArrayList<MovieItemDTO> movies;
+
+    private final MyReceiver receiver = new MyReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +48,8 @@ public class SingleActivity extends AppCompatActivity implements IFragmentIntera
                     .replace(R.id.container, fragment)
                     .commit();
         }
+        ObservableObject.getInstance().addObserver(this);
+        registerReceiver(receiver, new IntentFilter(MyReceiver.MY_BROADCAST_RECEIVER_ACTION));
     }
 
     @Override
@@ -91,6 +102,13 @@ public class SingleActivity extends AppCompatActivity implements IFragmentIntera
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        SendProgressToServicesActivity(resultCode, data);
+    }
+
+    public void OnIntentServiceReported(Intent intent) {
+    }
+
+    private void SendProgressToServicesActivity(int resultCode, Intent data){
         IServiceFragmentInteractionListener fragmentListener
                 = (IServiceFragmentInteractionListener) getSupportFragmentManager()
                 .findFragmentByTag(TAG_SERVICE_FRAGMENT);
@@ -114,5 +132,26 @@ public class SingleActivity extends AppCompatActivity implements IFragmentIntera
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Intent intent = (Intent)arg;
+        Intent receivedIntent = intent.getParcelableExtra(INTENT_EXTRA);
+        int code = intent.getIntExtra(UPDATE_TYPE_EXTRA, -1);
+        if(receivedIntent == null || code == -1)
+            throw new IllegalArgumentException();
+        SendProgressToServicesActivity(code, receivedIntent);
     }
 }

@@ -23,9 +23,11 @@
             android:name=".services.MyIntentService" />
 
         <receiver
-            android:name=".receivers.MyReceiver"
-            android:enabled="false"
-            android:exported="false"></receiver>
+            android:name=".receivers.MyReceiver">
+            <intent-filter>
+                <action android:name="com.example.asher.anacexercize4.receivers.myreceiver" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
