@@ -12,6 +12,7 @@ import com.example.asher.anacexercize4.async_util.ObservableObject;
 import com.example.asher.anacexercize4.data.DataGetter;
 import com.example.asher.anacexercize4.data.MovieItemDTO;
 import com.example.asher.anacexercize4.fragments.AsyncCounterFragment;
+import com.example.asher.anacexercize4.fragments.DownloadPosterFragment;
 import com.example.asher.anacexercize4.fragments.MoviesPagerFragment;
 import com.example.asher.anacexercize4.fragments.ServicesFragment;
 import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
@@ -30,6 +31,7 @@ import static com.example.asher.anacexercize4.services.MyIntentService.UPDATE_TY
 public class SingleActivity extends AppCompatActivity implements IFragmentInteractionListener, Observer {
 
     private static final String TAG_SERVICE_FRAGMENT = "TAG_SERVICE_FRAGMENT";
+    
     private ArrayList<MovieItemDTO> movies;
 
     private final MyReceiver receiver = new MyReceiver();
@@ -95,6 +97,16 @@ public class SingleActivity extends AppCompatActivity implements IFragmentIntera
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, fragment, TAG_SERVICE_FRAGMENT)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void SwitchToDownloadPosterFragment(String posterUrl) {
+        DownloadPosterFragment fragment = DownloadPosterFragment.NewInstance(posterUrl);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, fragment)
                 .addToBackStack(null)
                 .commit();
     }

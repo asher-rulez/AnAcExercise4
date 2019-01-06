@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,11 +18,14 @@ import com.example.asher.anacexercize4.data.MovieItemDTO;
 import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
 
 public class ScreenSlidePageFragment extends Fragment implements View.OnClickListener {
+    private final static String BUNDLE_MOVIE_DTO = "BUNDLE_MOVIE_DTO";
+
     MovieItemDTO _movieDto;
     IFragmentInteractionListener _interactionListener;
     ImageView iv_bigPoster, iv_smallPoster;
     TextView tv_releasedDate, tv_title, tv_description, tv_wiki;
     Button btn_showTrailer;
+    ImageButton btn_showDownloadPoster;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,12 +58,22 @@ public class ScreenSlidePageFragment extends Fragment implements View.OnClickLis
         tv_wiki.setText(_movieDto.get_movieWiki());
         btn_showTrailer = view.findViewById(R.id.btn_mof_trailer);
         btn_showTrailer.setOnClickListener(this);
+        btn_showDownloadPoster = view.findViewById(R.id.ibtn_download_poster_image);
+        btn_showDownloadPoster.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if(_interactionListener != null)
-            _interactionListener.OnShowTrailerClickListener(_movieDto.get_trailerIntentAddress());
+        switch (v.getId()){
+            case R.id.btn_mof_trailer:
+                if(_interactionListener != null)
+                    _interactionListener.OnShowTrailerClickListener(_movieDto.get_trailerIntentAddress());
+                break;
+            case R.id.ibtn_download_poster_image:
+                if(_interactionListener != null)
+                    _interactionListener.SwitchToDownloadPosterFragment(_movieDto.get_posterUrl());
+                break;
+        }
     }
 
     public void setMovie(MovieItemDTO movieItemDTO) {
@@ -68,5 +82,19 @@ public class ScreenSlidePageFragment extends Fragment implements View.OnClickLis
 
     public void setInteractionListener(IFragmentInteractionListener interactionListener) {
         _interactionListener = interactionListener;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState != null){
+            _movieDto = (MovieItemDTO)savedInstanceState.getSerializable(BUNDLE_MOVIE_DTO);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(BUNDLE_MOVIE_DTO, _movieDto);
     }
 }

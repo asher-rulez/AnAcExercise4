@@ -10,4 +10,6 @@ public interface IFragmentInteractionListener {
     void SwitchToAsyncFragment(int asyncTypeId);
 
     void SwitchToServicesFragment();
+
+    void SwitchToDownloadPosterFragment(String posterUrl);
 }

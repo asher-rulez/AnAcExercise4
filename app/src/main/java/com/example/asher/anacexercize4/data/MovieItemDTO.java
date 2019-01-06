@@ -19,8 +19,11 @@ public class MovieItemDTO implements Serializable {
     private String _movieWiki;
     private String _movieReleaseDate;
     private String _trailerIntentAddress;
+    private String _posterUrl;
 
-    public MovieItemDTO(int _imageSmallResId, int _imageBigResId, String _movieTitle, String _movieDescription, String _movieWiki, String _movieReleaseDate, String _movieTrailerId) {
+    public MovieItemDTO(int _imageSmallResId, int _imageBigResId, String _movieTitle,
+                        String _movieDescription, String _movieWiki, String _movieReleaseDate,
+                        String _movieTrailerId, String _posterUrl) {
         this._imageSmallResId = _imageSmallResId;
         this._imageBigResId = _imageBigResId;
         this._movieTitle = _movieTitle;
@@ -28,6 +31,7 @@ public class MovieItemDTO implements Serializable {
         this._movieWiki = _movieWiki;
         this._movieReleaseDate = _movieReleaseDate;
         this._trailerIntentAddress = _movieTrailerId;
+        this._posterUrl = _posterUrl;
     }
 
     public String get_trailerIntentAddress() {
@@ -84,6 +88,14 @@ public class MovieItemDTO implements Serializable {
 
     public void set_movieReleaseDate(String _movieReleaseDate) {
         this._movieReleaseDate = _movieReleaseDate;
+    }
+
+    public String get_posterUrl() {
+        return _posterUrl;
+    }
+
+    public void set_posterUrl(String _posterUrl) {
+        this._posterUrl = _posterUrl;
     }
 
 }
