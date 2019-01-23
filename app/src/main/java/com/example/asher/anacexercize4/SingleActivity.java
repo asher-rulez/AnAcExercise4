@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.example.asher.anacexercize4.async_util.ObservableObject;
 import com.example.asher.anacexercize4.data.DataGetter;
 import com.example.asher.anacexercize4.data.MovieItemDTO;
+import com.example.asher.anacexercize4.data.Result;
 import com.example.asher.anacexercize4.fragments.AsyncCounterFragment;
 import com.example.asher.anacexercize4.fragments.DownloadPosterFragment;
 import com.example.asher.anacexercize4.fragments.MoviesPagerFragment;
@@ -31,7 +32,7 @@ import static com.example.asher.anacexercize4.services.MyIntentService.UPDATE_TY
 public class SingleActivity extends AppCompatActivity implements IFragmentInteractionListener, Observer {
 
     private static final String TAG_SERVICE_FRAGMENT = "TAG_SERVICE_FRAGMENT";
-    
+
     private ArrayList<MovieItemDTO> movies;
 
     private final MyReceiver receiver = new MyReceiver();
@@ -109,6 +110,11 @@ public class SingleActivity extends AppCompatActivity implements IFragmentIntera
                 .replace(R.id.container, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void NotifyGotMovies(ArrayList<Result> movies) {
+
     }
 
     @Override

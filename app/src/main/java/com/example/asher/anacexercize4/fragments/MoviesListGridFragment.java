@@ -20,6 +20,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.asher.anacexercize4.Networking.RestClient;
+import com.example.asher.anacexercize4.data.MoviesDownloadResult;
+import com.example.asher.anacexercize4.data.Result;
 import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
 import com.example.asher.anacexercize4.R;
 import com.example.asher.anacexercize4.adapters.MoviesListRWAdapterGrid;
@@ -28,6 +31,11 @@ import com.example.asher.anacexercize4.data.DataGetter;
 import com.example.asher.anacexercize4.data.MovieItemDTO;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MoviesListGridFragment extends Fragment {
 
@@ -167,9 +175,30 @@ public class MoviesListGridFragment extends Fragment {
             case R.id.ml_tb_menu_item_services:
                 _interactionListener.SwitchToServicesFragment();
                 return true;
+            case R.id.ml_tb_menu_item_download_list:
+                DownloadMoviesList();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void DownloadMoviesList(){
+        Call<MoviesDownloadResult> call = RestClient.moviesService.GetPopularMovies(getString(R.string.themoviedb_api_key));
+        call.enqueue(new Callback<MoviesDownloadResult>() {
+            @Override
+            public void onResponse(Call<MoviesDownloadResult> call, Response<MoviesDownloadResult> response) {
+                if(response.isSuccessful()){
+                    MoviesDownloadResult result = response.body();
+                    List<Result> movies = result.getResults();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MoviesDownloadResult> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
