@@ -3,6 +3,7 @@
     <string name="themoviedb_base_url">https://api.themoviedb.org/3/movie</string>
     <string name="themoviedb_popular">popular</string>
     <string name="themoviedb_api_key">653e27180c99d8aaabfade446b46ffb8</string>
+    <string name="images_base_url">https://image.tmdb.org/t/p/w500</string>
     <string name="themoviedb_query_base">api_key</string>
     <string name="themoviedb_api_token">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NTNlMjcxODBjOTlkOGFhYWJmYWRlNDQ2YjQ2ZmZiOCIsInN1YiI6IjVjNDhkMWUzYzNhMzY4NDc4OTg5MTZkNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.q3_A0sbRFaZpb3M_yY42tfMyWeul2vAMWNBLxipIUDA</string>
     <string name="overview">Overview:</string>

@@ -15,12 +15,14 @@ import android.widget.TextView;
 
 import com.example.asher.anacexercize4.R;
 import com.example.asher.anacexercize4.data.MovieItemDTO;
+import com.example.asher.anacexercize4.data.Result;
 import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
+import com.squareup.picasso.Picasso;
 
 public class ScreenSlidePageFragment extends Fragment implements View.OnClickListener {
     private final static String BUNDLE_MOVIE_DTO = "BUNDLE_MOVIE_DTO";
 
-    MovieItemDTO _movieDto;
+    Result _movieDto;
     IFragmentInteractionListener _interactionListener;
     ImageView iv_bigPoster, iv_smallPoster;
     TextView tv_releasedDate, tv_title, tv_description, tv_wiki;
@@ -33,7 +35,7 @@ public class ScreenSlidePageFragment extends Fragment implements View.OnClickLis
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.movie_overview_fragment, container, false);
         if(savedInstanceState != null)
-            _movieDto = (MovieItemDTO)savedInstanceState.get(MovieItemDTO.MOVIE_ITEM_BUNDLE_NAME);
+            _movieDto = (Result) savedInstanceState.get(MovieItemDTO.MOVIE_ITEM_BUNDLE_NAME);
         return rootView;
     }
 
@@ -45,17 +47,24 @@ public class ScreenSlidePageFragment extends Fragment implements View.OnClickLis
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         iv_bigPoster = view.findViewById(R.id.iv_mof_big);
-        iv_bigPoster.setImageResource(_movieDto.get_imageBigResId());
+        Picasso.get().load(getString(R.string.images_base_url) + _movieDto.getBackdropPath())
+                .into(iv_bigPoster);
+        //iv_bigPoster.setImageResource(_movieDto.get_imageBigResId());
         iv_smallPoster = view.findViewById(R.id.iv_mof_small);
-        iv_smallPoster.setImageResource(_movieDto.get_imageSmallResId());
+        Picasso.get().load(getString(R.string.images_base_url) + _movieDto.getPosterPath())
+                .into(iv_smallPoster);
+        //iv_smallPoster.setImageResource(_movieDto.get_imageSmallResId());
         tv_releasedDate = view.findViewById(R.id.ma_tv_released);
-        tv_releasedDate.setText(_movieDto.get_movieReleaseDate());
+        tv_releasedDate.setText(_movieDto.getReleaseDate());
+        //tv_releasedDate.setText(_movieDto.get_movieReleaseDate());
         tv_title = view.findViewById(R.id.ma_tv_movie_title);
-        tv_title.setText(_movieDto.get_movieTitle());
+        tv_title.setText(_movieDto.getTitle());
+        //tv_title.setText(_movieDto.get_movieTitle());
         tv_description = view.findViewById(R.id.tv_mof_overview);
-        tv_description.setText(_movieDto.get_movieTitle());
-        tv_wiki = view.findViewById(R.id.tv_mof_wiki);
-        tv_wiki.setText(_movieDto.get_movieWiki());
+        tv_description.setText(_movieDto.getOverview());
+        //tv_description.setText(_movieDto.get_movieTitle());
+//        tv_wiki = view.findViewById(R.id.tv_mof_wiki);
+//        tv_wiki.setText(_movieDto.get_movieWiki());
         btn_showTrailer = view.findViewById(R.id.btn_mof_trailer);
         btn_showTrailer.setOnClickListener(this);
         btn_showDownloadPoster = view.findViewById(R.id.ibtn_download_poster_image);
@@ -66,17 +75,18 @@ public class ScreenSlidePageFragment extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_mof_trailer:
-                if(_interactionListener != null)
-                    _interactionListener.OnShowTrailerClickListener(_movieDto.get_trailerIntentAddress());
+//                if(_interactionListener != null)
+//                    _interactionListener.OnShowTrailerClickListener(_movieDto.get_trailerIntentAddress());
                 break;
             case R.id.ibtn_download_poster_image:
                 if(_interactionListener != null)
-                    _interactionListener.SwitchToDownloadPosterFragment(_movieDto.get_posterUrl());
+                    _interactionListener.SwitchToDownloadPosterFragment(
+                            getString(R.string.images_base_url) + _movieDto.getPosterPath());
                 break;
         }
     }
 
-    public void setMovie(MovieItemDTO movieItemDTO) {
+    public void setMovie(Result movieItemDTO) {
         _movieDto = movieItemDTO;
     }
 
@@ -88,7 +98,7 @@ public class ScreenSlidePageFragment extends Fragment implements View.OnClickLis
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(savedInstanceState != null){
-            _movieDto = (MovieItemDTO)savedInstanceState.getSerializable(BUNDLE_MOVIE_DTO);
+            _movieDto = (Result) savedInstanceState.getSerializable(BUNDLE_MOVIE_DTO);
         }
     }
 

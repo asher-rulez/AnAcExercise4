@@ -22,7 +22,9 @@ import com.example.asher.anacexercize4.interfaces.IServiceFragmentInteractionLis
 import com.example.asher.anacexercize4.receivers.MyReceiver;
 import com.example.asher.anacexercize4.services.MyService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -32,8 +34,9 @@ import static com.example.asher.anacexercize4.services.MyIntentService.UPDATE_TY
 public class SingleActivity extends AppCompatActivity implements IFragmentInteractionListener, Observer {
 
     private static final String TAG_SERVICE_FRAGMENT = "TAG_SERVICE_FRAGMENT";
+    private static final String TAG_LIST_FRAGMENT = "TAG_LIST_FRAGMENT";
 
-    private ArrayList<MovieItemDTO> movies;
+    private List<Result> movies;
 
     private final MyReceiver receiver = new MyReceiver();
 
@@ -41,14 +44,14 @@ public class SingleActivity extends AppCompatActivity implements IFragmentIntera
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_activity);
-        movies = DataGetter.GetData(this);
+        //movies = DataGetter.GetData(this);
         if (savedInstanceState == null) {
             MoviesListGridFragment fragment = MoviesListGridFragment.newInstance(this);
             Bundle bundle = new Bundle();
-            bundle.putSerializable(MovieItemDTO.MOVIE_ITEM_BUNDLE_NAME, movies);
+            bundle.putSerializable(MovieItemDTO.MOVIE_ITEM_BUNDLE_NAME, (Serializable)movies);
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, fragment)
+                    .replace(R.id.container, fragment, TAG_LIST_FRAGMENT)
                     .commit();
         }
         ObservableObject.getInstance().addObserver(this);
@@ -59,7 +62,7 @@ public class SingleActivity extends AppCompatActivity implements IFragmentIntera
     public void OnListOrGridItemClicked(int movieIndex) {
         MoviesPagerFragment fragment = MoviesPagerFragment.newInstance(this);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(MovieItemDTO.MOVIE_ITEM_BUNDLE_NAME, movies);
+        bundle.putSerializable(MovieItemDTO.MOVIE_ITEM_BUNDLE_NAME, (Serializable)movies);
         bundle.putInt(MovieItemDTO.MOVIE_INDEX_BUNDLE_NAME, movieIndex);
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
@@ -113,8 +116,8 @@ public class SingleActivity extends AppCompatActivity implements IFragmentIntera
     }
 
     @Override
-    public void NotifyGotMovies(ArrayList<Result> movies) {
-
+    public void NotifyGotMovies(List<Result> movies) {
+        this.movies = movies;
     }
 
     @Override

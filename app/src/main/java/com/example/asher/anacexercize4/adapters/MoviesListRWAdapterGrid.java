@@ -9,21 +9,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.asher.anacexercize4.data.Result;
 import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
 import com.example.asher.anacexercize4.R;
 import com.example.asher.anacexercize4.data.MovieItemDTO;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MoviesListRWAdapterGrid extends RecyclerView.Adapter<MoviesListRWAdapterGrid.MoviesGridViewHolder> {
 
-    ArrayList<MovieItemDTO> _items_dtos;
+    //ArrayList<MovieItemDTO> _items_dtos;
+    List<Result> _items_dtos;
     LayoutInflater mLayoutInflater;
     IFragmentInteractionListener _interactionListener;
+    String _image_base_url;
 
-    public MoviesListRWAdapterGrid(ArrayList<MovieItemDTO> _items_dtos, Context context, IFragmentInteractionListener interactionListener) {
+    public MoviesListRWAdapterGrid(List<Result> _items_dtos, Context context, IFragmentInteractionListener interactionListener) {
         this._items_dtos = _items_dtos;
         _interactionListener = interactionListener;
+        _image_base_url = context.getString(R.string.images_base_url);
         mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -58,9 +64,13 @@ public class MoviesListRWAdapterGrid extends RecyclerView.Adapter<MoviesListRWAd
             itemView.setOnClickListener(this);
         }
 
-        public void SetMovieItemDto(MovieItemDTO dto, int index){
-            _image.setImageResource(dto.get_imageSmallResId());
-            _title.setText(dto.get_movieTitle());
+        public void SetMovieItemDto(Result dto, int index){
+            Picasso.get()
+                    .load(_image_base_url + dto.getPosterPath())
+                    .into(_image);
+            _title.setText(dto.getTitle());
+//            _image.setImageResource(dto.get_imageSmallResId());
+//            _title.setText(dto.get_movieTitle());
             set_index(index);
         }
 

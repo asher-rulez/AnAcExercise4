@@ -17,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.asher.anacexercize4.Networking.RestClient;
@@ -27,8 +26,6 @@ import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
 import com.example.asher.anacexercize4.R;
 import com.example.asher.anacexercize4.adapters.MoviesListRWAdapterGrid;
 import com.example.asher.anacexercize4.adapters.MoviesListRWAdapterList;
-import com.example.asher.anacexercize4.data.DataGetter;
-import com.example.asher.anacexercize4.data.MovieItemDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +42,9 @@ public class MoviesListGridFragment extends Fragment {
 
     android.support.v7.widget.Toolbar _toolbar;
     MenuItem _menu_item_list, _menu_item_grid;
-    ArrayList<MovieItemDTO> mi_source;
+    //ArrayList<MovieItemDTO> mi_source;
+    //ArrayList<Result> mi_source;
+    List<Result> mi_source;
     MoviesListRWAdapterList listAdapter;
     MoviesListRWAdapterGrid gridAdapter;
     RecyclerView rw_movies_list;
@@ -75,7 +74,7 @@ public class MoviesListGridFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mi_source = (ArrayList<MovieItemDTO>) getArguments().getSerializable(MovieItemDTO.MOVIE_ITEM_BUNDLE_NAME);
+        //mi_source = (ArrayList<MovieItemDTO>) getArguments().getSerializable(MovieItemDTO.MOVIE_ITEM_BUNDLE_NAME);
         return inflater.inflate(R.layout.single_fragment, container, false);
     }
 
@@ -190,7 +189,12 @@ public class MoviesListGridFragment extends Fragment {
             public void onResponse(Call<MoviesDownloadResult> call, Response<MoviesDownloadResult> response) {
                 if(response.isSuccessful()){
                     MoviesDownloadResult result = response.body();
-                    List<Result> movies = result.getResults();
+                    mi_source = result.getResults();
+//                    List<Result> movies = result.getResults();
+//                    mi_source.addAll(movies.toArray());
+                    CreateAndAttachAdapter();
+                    if(_interactionListener != null)
+                        _interactionListener.NotifyGotMovies(mi_source);
                 }
             }
 
@@ -206,6 +210,12 @@ public class MoviesListGridFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         Toast.makeText(getContext(), "fragment onActRes " + resultCode, Toast.LENGTH_SHORT).show();
     }
+
+//    @Override
+//    public void NotifyGotMovies(ArrayList<Result> movies) {
+//        mi_source = movies;
+//        CreateAndAttachAdapter();
+//    }
 
     //    @Override
 //    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

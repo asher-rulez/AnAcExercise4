@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.example.asher.anacexercize4.data.Result;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface IFragmentInteractionListener {
     void OnListOrGridItemClicked(int movieIndex);
@@ -17,5 +17,5 @@ public interface IFragmentInteractionListener {
 
     void SwitchToDownloadPosterFragment(String posterUrl);
 
-    void NotifyGotMovies(ArrayList<Result> movies);
+    void NotifyGotMovies(List<Result> movies);
 }

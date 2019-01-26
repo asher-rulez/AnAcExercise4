@@ -6,13 +6,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.asher.anacexercize4.data.MovieItemDTO;
+import com.example.asher.anacexercize4.data.Result;
 import com.example.asher.anacexercize4.fragments.ScreenSlidePageFragment;
 import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MoviePagerAdapter extends FragmentStatePagerAdapter {
-    ArrayList<MovieItemDTO> _movieItemDTOs;
+    List<Result> _movieItemDTOs;
     private int currentIndex;
     IFragmentInteractionListener _interactionListener;
 
@@ -40,11 +42,11 @@ public class MoviePagerAdapter extends FragmentStatePagerAdapter {
         _interactionListener = interactionListener;
     }
 
-    public ArrayList<MovieItemDTO> get_movieItemDTOs() {
+    public List<Result> get_movieItemDTOs() {
         return _movieItemDTOs;
     }
 
-    public void set_movieItemDTOs(ArrayList<MovieItemDTO> _movieItemDTOs) {
+    public void set_movieItemDTOs(List<Result> _movieItemDTOs) {
         this._movieItemDTOs = _movieItemDTOs;
     }
 }

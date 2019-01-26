@@ -9,21 +9,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.asher.anacexercize4.data.Result;
 import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
 import com.example.asher.anacexercize4.R;
 import com.example.asher.anacexercize4.data.MovieItemDTO;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MoviesListRWAdapterList extends RecyclerView.Adapter<MoviesListRWAdapterList.MoviesListViewHolder> {
 
-    ArrayList<MovieItemDTO> _items_dtos;
+    //ArrayList<MovieItemDTO> _items_dtos;
+    List<Result> _items_dtos;
     LayoutInflater mLayoutInflater;
     IFragmentInteractionListener _interactionListener;
+    String _imageBaseUrl;
 
-    public MoviesListRWAdapterList(ArrayList<MovieItemDTO> _items_dtos, Context context, IFragmentInteractionListener interactionListener) {
+    public MoviesListRWAdapterList(List<Result> _items_dtos, Context context, IFragmentInteractionListener interactionListener) {
         this._items_dtos = _items_dtos;
         _interactionListener = interactionListener;
+        _imageBaseUrl = context.getString(R.string.images_base_url);
         mLayoutInflater = (LayoutInflater)context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -60,10 +66,15 @@ public class MoviesListRWAdapterList extends RecyclerView.Adapter<MoviesListRWAd
             itemView.setOnClickListener(this);
         }
 
-        public void SetMovieItemDto(MovieItemDTO dto, int index){
-            _image.setImageResource(dto.get_imageSmallResId());
-            _title.setText(dto.get_movieTitle());
-            _description.setText(dto.get_movieDescription());
+        public void SetMovieItemDto(Result dto, int index){
+            Picasso.get()
+                    .load(_imageBaseUrl + dto.getPosterPath())
+                    .into(_image);
+            _title.setText(dto.getTitle());
+            _description.setText(dto.getOverview());
+            //_image.setImageResource(dto.get_imageSmallResId());
+            //_title.setText(dto.get_movieTitle());
+            //_description.setText(dto.get_movieDescription());
             set_index(index);
         }
         @Override

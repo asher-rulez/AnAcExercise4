@@ -13,12 +13,14 @@ import com.example.asher.anacexercize4.R;
 import com.example.asher.anacexercize4.SingleActivity;
 import com.example.asher.anacexercize4.adapters.MoviePagerAdapter;
 import com.example.asher.anacexercize4.data.MovieItemDTO;
+import com.example.asher.anacexercize4.data.Result;
 import com.example.asher.anacexercize4.interfaces.IFragmentInteractionListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MoviesPagerFragment extends Fragment {
-    ArrayList<MovieItemDTO> _movieDtos;
+    List<Result> _movieDtos;
     ViewPager _pager;
     MoviePagerAdapter _pagerAdapter;
     IFragmentInteractionListener _interactionListener;
@@ -35,7 +37,7 @@ public class MoviesPagerFragment extends Fragment {
                              Bundle savedInstanceState) {
 //        if(savedInstanceState != null)
 //            _movieDtos = (ArrayList<MovieItemDTO>)savedInstanceState.get(MovieItemDTO.MOVIE_ITEM_BUNDLE_NAME);
-        _movieDtos = (ArrayList<MovieItemDTO>)getArguments().getSerializable(MovieItemDTO.MOVIE_ITEM_BUNDLE_NAME);
+        _movieDtos = (List<Result>)getArguments().getSerializable(MovieItemDTO.MOVIE_ITEM_BUNDLE_NAME);
         _movieIndex = getArguments().getInt(MovieItemDTO.MOVIE_INDEX_BUNDLE_NAME);
         return inflater.inflate(
                 R.layout.movies_pager_fragment, container, false);
